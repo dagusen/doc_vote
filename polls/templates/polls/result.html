@@ -1,0 +1,22 @@
+{% extends "polls/layout.html" %}
+
+{% block title %} {{ block.super }} | {{ poll.question_text }} {% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <h2 class="text-center"><strong>Result Of:</strong> {{ poll.question_text }}</h2>
+                        <ul class="list-group">
+                            {% for choice in poll.sort_choice_votes %}
+                                <li class="list-group-item">{{ choice.choice_text }} ({{ choice.votes }})</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

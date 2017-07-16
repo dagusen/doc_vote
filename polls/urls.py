@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from .views import index, detail, vote
+from .views import index, detail, vote, result
 
 urlpatterns = [
     # /polls
@@ -10,4 +10,7 @@ urlpatterns = [
 
     # /polls/poll_id
     url(r'^(?P<poll_id>[0-9]+)/vote$', vote, name="vote"),
+
+    # /polls/poll_id/result
+    url(r'^(?P<poll_id>[0-9]+)/result$', result, name="result"),
 ]

@@ -13,6 +13,10 @@ class Question(models.Model):
     def was_published_recently(self):
         return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
 
+    @property
+    def sort_choice_votes(self):
+        return self.choice_set.order_by('-votes')
+
 
 class Choice(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)

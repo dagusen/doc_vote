@@ -31,3 +31,8 @@ def vote(request, poll_id):
     selected_choice.save()
 
     return redirect("polls:detail", poll_id=poll.id)
+
+
+def result(request, poll_id):
+    poll = get_object_or_404(Question, pk=poll_id)
+    return render(request, "polls/result.html", {"poll": poll})
