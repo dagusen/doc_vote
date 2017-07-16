@@ -10,9 +10,9 @@
                         <form action="{% url "polls:vote" poll.id %}" method="post">
                             {% csrf_token %}
                             {% for choice in poll.choice_set.all %}
-                                <div class="form-group">
-                                    <label class="control-label">
-                                        <input type="radio" name="vote" class="control-label" value="{{ choice.id }}"> {{ choice.choice_text }}
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="vote" id="choice-{{ forloop.counter }}" value="{{ choice.id }}"> {{ choice.choice_text }}
                                     </label>
                                 </div>
                             {% endfor %}
