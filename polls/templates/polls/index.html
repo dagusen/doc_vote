@@ -7,7 +7,10 @@
                 <ul class="list-group">
                     {% if polls %}
                         {% for poll in polls %}
-                            <li class="list-group-item"><a href="{% url "polls:detail" poll.id %}">{{ poll.question_text }}</a></li>
+                            <li class="list-group-item">
+                                <a href="{% url "polls:detail" poll.id %}">{{ poll.question_text }}</a> -
+                                <a href="{% url "polls:result" poll.id %}" class="label label-success">Result</a>
+                            </li>
                         {% endfor %}
                     {% else %}
                         <li class="list-group-item-warning">No Polls Created Yet!</li>

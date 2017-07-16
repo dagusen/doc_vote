@@ -18,6 +18,7 @@
                             {% endfor %}
                             <div class="form-group">
                                 <input type="submit" value="submit" class="btn btn-success">
+                                <a href="{% url "polls:result" poll.id %}" class="btn btn-link">Result</a>
                             </div>
                         </form>
                     </div>
