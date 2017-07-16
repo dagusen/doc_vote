@@ -4,7 +4,7 @@ from polls.models import Question, Choice
 
 
 def index(request):
-    polls = Question.objects.all()
+    polls = Question.objects.all().order_by('-id')[:5]
     return render(request, "polls/index.html", {"polls": polls})
 
 
