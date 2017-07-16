@@ -8,6 +8,11 @@ def index(request):
     return render(request, "polls/index.html", {"polls": polls})
 
 
+def results(request):
+    polls = Question.objects.all()
+    return render(request, "polls/results.html", {"polls": polls})
+
+
 def detail(request, poll_id):
     try:
         poll = Question.objects.get(pk=poll_id)
