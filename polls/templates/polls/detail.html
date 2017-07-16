@@ -1,0 +1,28 @@
+{% extends "polls/layout.html" %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <h1>{{ poll.question_text }}</h1>
+                        <form action="{% url "polls:vote" poll.id %}" method="post">
+                            {% csrf_token %}
+                            {% for choice in poll.choice_set.all %}
+                                <div class="form-group">
+                                    <label class="control-label">
+                                        <input type="radio" name="vote" class="control-label" value="{{ choice.id }}"> {{ choice.choice_text }}
+                                    </label>
+                                </div>
+                            {% endfor %}
+                            <div class="form-group">
+                                <input type="submit" value="submit" class="btn btn-success">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
