@@ -1,8 +1,10 @@
-from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
+from django.shortcuts import render, redirect
 from .Forms import Login, Registration
+from .Utils.decorators import add_recaptcha
 
 
+@add_recaptcha
 def user_login(request):
     if request.user.is_authenticated:
         return redirect("polls:index")
@@ -13,6 +15,9 @@ def user_login(request):
     if request.method == "POST":
         form = Login(request.POST)
         if form.is_valid():
+            if not request.recaptcha_valid:
+                return render(request, "user/login.html", {"form": form, "error_message": "Please Fill Captcha"})
+
             username = request.POST['username']
             password = request.POST['password']
             user = authenticate(username=username, password=password)
@@ -30,6 +35,7 @@ def user_login(request):
         return render(request, "user/login.html", {"form": form})
 
 
+@add_recaptcha
 def user_registration(request):
     if request.user.is_authenticated:
         return redirect("polls:index")
@@ -41,8 +47,10 @@ def user_registration(request):
         form = Registration(request.POST)
 
         if form.is_valid():
-            user = form.save(commit=False)
+            if not request.recaptcha_valid:
+                return render(request, "user/login.html", {"form": form, "error_message": "Please Fill Captcha"})
 
+            user = form.save(commit=False)
             # Clean Data
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
