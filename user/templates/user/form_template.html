@@ -1,0 +1,12 @@
+{% load formfilters %}
+{% for field in form %}
+    <div class="form-group {% if field.errors %} has-error {% endif %}">
+        <label for="{{ field.auto_id }}" class="control-label">{{ field.label }}</label>
+
+        {{ field|inputField }}
+
+        {% if field.errors %}
+            <p class="help-block">{{ field.errors.as_text }}</p>
+        {% endif %}
+    </div>
+{% endfor %}

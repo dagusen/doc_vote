@@ -1,0 +1,25 @@
+{% extends "user/layout.html" %}
+
+{% block title %} {{ block.super }} | Registration {% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <h2 class="text-center">Registration</h2>
+                        <form action="{% url "user:user_signup" %}" method="post">
+                            {% csrf_token %}
+                            {% include "user/error_message.html" with error_message=error_message %}
+                            {% include "user/form_template.html" with form=form %}
+                            <div class="form-group">
+                                <input type="submit" value="Register" class="btn btn-primary">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
