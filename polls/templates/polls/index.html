@@ -8,8 +8,12 @@
                     {% if polls %}
                         {% for poll in polls %}
                             <li class="list-group-item">
-                                <a href="{% url "polls:detail" poll.id %}">{{ poll.question_text }}</a> -
-                                <a href="{% url "polls:result" poll.id %}" class="label label-success">Result</a>
+                                {% if user.is_authenticated %}
+                                    <a href="{% url "polls:detail" poll.id %}">{{ poll.question_text }}</a> -
+                                    <a href="{% url "polls:result" poll.id %}" class="label label-success">Result</a>
+                                {% else %}
+                                    <a href="{% url "polls:result" poll.id %}">{{ poll.question_text }}</a>
+                                {% endif %}
                             </li>
                         {% endfor %}
                     {% else %}

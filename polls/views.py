@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import Http404, HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from polls.models import Question, Choice
+from django.contrib.auth.decorators import login_required
 
 
 def index(request):
@@ -24,6 +25,7 @@ def results(request):
     return render(request, "polls/results.html", {"polls": polls})
 
 
+@login_required(login_url="/user/login")
 def detail(request, poll_id):
     try:
         poll = Question.objects.get(pk=poll_id)
