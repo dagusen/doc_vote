@@ -1,10 +1,21 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import Http404, HttpResponse
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from polls.models import Question, Choice
 
 
 def index(request):
-    polls = Question.objects.all().order_by('-id')[:5]
+    polls = Question.objects.all().order_by('-id')
+    paginator = Paginator(polls, 5)
+    page = request.GET.get('page')
+
+    try:
+        polls = paginator.page(page)
+    except PageNotAnInteger:
+        polls = paginator.page(1)
+    except EmptyPage:
+        polls = paginator.page(paginator.num_pages)
+
     return render(request, "polls/index.html", {"polls": polls})
 
 

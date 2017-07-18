@@ -16,6 +16,7 @@
                         <li class="list-group-item-warning">No Polls Created Yet!</li>
                     {% endif %}
                 </ul>
+                {% include "polls/pagination.html" with pages=polls %}
             </div>
         </div>
     </div>
