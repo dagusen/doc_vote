@@ -1,3 +1,18 @@
 .navbar {
     border-radius: 0;
 }
+
+.btn-add-more{
+    padding-top: 25px;
+}
+
+.input-right {
+    padding-right: 0;
+    margin-right: 0;
+    margin-bottom: 16px;
+}
+
+.btn-left {
+    padding-left: 0;
+    margin-left: 0;
+}

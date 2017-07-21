@@ -13,6 +13,9 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse navbar-ex1-collapse">
         <ul class="nav navbar-nav">
+            {% if user.is_superuser %}
+                <li><a href="{% url "polls:create" %}">Create Question</a></li>
+            {% endif %}
             <li><a href="{% url "polls:results" %}">Results</a></li>
         </ul>
         {% comment %}<form class="navbar-form navbar-left" role="search">

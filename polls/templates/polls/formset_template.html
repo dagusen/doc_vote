@@ -1,0 +1,18 @@
+{% load formfilters %}
+{% for field in form %}
+    <div class="item">
+        <div class="col-md-9 {% if field.errors %} has-error {% endif %} input-right">
+            <label for="{{ field.auto_id }}" class="control-label">{{ field.label }}</label>
+
+            {{ field|inputField }}
+
+            {% if field.errors %}
+                <p class="help-block">{{ field.errors.as_text }}</p>
+            {% endif %}
+        </div>
+        <div class="col-md-3 text-center btn-add-more btn-left">
+            <button class="btn btn-sm btn-success add-more"><i class="glyphicon glyphicon-plus"></i></button>
+            <button class="btn btn-sm btn-warning delete-this"><i class="glyphicon glyphicon-remove"></i></button>
+        </div>
+    </div>
+{% endfor %}
