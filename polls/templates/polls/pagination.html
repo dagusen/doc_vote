@@ -1,7 +1,7 @@
 {% if pages.has_other_pages %}
     <ul class="pagination">
         {% if pages.has_previous %}
-            <li><a href="?page={{ pages.previous_page_number }}">&laquo;</a></li>
+            <li><a href="?page={{ pages.previous_page_number }}&s={{ request.GET.s }}">&laquo;</a></li>
         {% else %}
             <li class="disabled"><a href="#">&laquo;</a></li>
         {% endif %}
@@ -10,12 +10,12 @@
             {% if pages.number == page %}
                 <li class="active"><a href="?page={{ page }}">{{ page }}</a></li>
             {% else %}
-                <li><a href="?page={{ page }}">{{ page }}</a></li>
+                <li><a href="?page={{ page }}&s={{ request.GET.s }}">{{ page }}</a></li>
             {% endif %}
         {% endfor %}
 
         {% if pages.has_next %}
-            <li><a href="?page={{ pages.next_page_number }}">&raquo;</a></li>
+            <li><a href="?page={{ pages.next_page_number }}&s={{ request.GET.s }}">&raquo;</a></li>
         {% else %}
             <li class="disabled"><a href="#">&raquo;</a></li>
         {% endif %}

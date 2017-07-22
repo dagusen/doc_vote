@@ -17,7 +17,7 @@
                             </li>
                         {% endfor %}
                     {% else %}
-                        <li class="list-group-item-warning">No Polls Created Yet!</li>
+                        <li class="list-group-item list-group-item-danger">No Polls Created Yet!</li>
                     {% endif %}
                 </ul>
                 {% include "polls/pagination.html" with pages=polls %}

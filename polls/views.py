@@ -1,9 +1,10 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.forms.formsets import formset_factory
 from django.http import Http404
 from django.shortcuts import render, get_object_or_404, redirect
-from django.forms.formsets import formset_factory
-from django.contrib import messages
+from django.db.models import Q
 
 from polls.models import Question, Choice
 from .forms import QuestionModelForm, ChoiceModelForm, ChoiceFormSet
@@ -11,6 +12,13 @@ from .forms import QuestionModelForm, ChoiceModelForm, ChoiceFormSet
 
 def index(request):
     polls = Question.objects.all().order_by('-id')
+    query = request.GET.get('s')
+    if query:
+        polls = polls.filter(
+            Q(question_text__icontains=query) |
+            Q(choice__choice_text__contains=query)
+        )
+
     paginator = Paginator(polls, 5)
     page = request.GET.get('page')
 
