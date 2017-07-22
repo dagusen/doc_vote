@@ -34,6 +34,14 @@ def index(request):
 
 def results(request):
     polls = Question.objects.all()
+    paginator = Paginator(polls, 8)
+    page = request.GET.get('page')
+    try:
+        polls = paginator.page(page)
+    except PageNotAnInteger:
+        polls = paginator.page(1)
+    except EmptyPage:
+        polls = paginator.page(paginator.num_pages)
     return render(request, "polls/results.html", {"polls": polls})
 
 
