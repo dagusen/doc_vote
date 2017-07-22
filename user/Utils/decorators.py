@@ -33,9 +33,8 @@ def logged_in_user(redirect_name=None, *margs, **mkwargs):
         @wraps(func)
         def wrapper(request, *args, **kwargs):
             if request.user.is_authenticated:
-                print(redirect_name)
                 return redirect(redirect_name, *margs, **mkwargs)
-            func(request, *args, **kwargs)
+            return func(request, *args, **kwargs)
 
         return wrapper
 
