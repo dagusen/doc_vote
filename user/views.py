@@ -17,8 +17,7 @@ def user_login(request):
         form = Login(request.POST)
         if form.is_valid():
             if not request.recaptcha_valid:
-                messages.error(request, "Please Fill Captcha")
-                return render(request, "user/login.html", {"form": form})
+                return render(request, "user/login.html", {"form": form, "error_message": "Please Fill Captcha"})
 
             username = request.POST['username']
             password = request.POST['password']
@@ -30,11 +29,10 @@ def user_login(request):
                     messages.success(request, "Successfully Login")
                     return redirect("polls:index")
                 else:
-                    messages.error(request, "Sorry This user no longer active")
-                    return render(request, "user/login.html", {"form": form})
+                    return render(request, "user/login.html",
+                                  {"form": form, "error_message": "Sorry This user no longer active"})
             else:
-                messages.error(request, "Sorry Wrong Credential")
-                return render(request, "user/login.html", {"form": form})
+                return render(request, "user/login.html", {"form": form, "error_message": "Sorry Wrong Credential"})
 
         return render(request, "user/login.html", {"form": form})
 
@@ -51,8 +49,7 @@ def user_registration(request):
 
         if form.is_valid():
             if not request.recaptcha_valid:
-                messages.error(request, "Please Fill Captcha")
-                return render(request, "user/login.html", {"form": form})
+                return render(request, "user/login.html", {"form": form, "error_message": "Please Fill Captcha"})
 
             user = form.save(commit=False)
             # Clean Data
@@ -69,8 +66,8 @@ def user_registration(request):
                     messages.success(request, "Successfully register & login automatically")
                     return redirect("polls:index")
                 else:
-                    messages.error(request, "Sorry this user is no longer active")
-                    return render(request, "user/registration.html", {"form": form})
+                    return render(request, "user/registration.html",
+                                  {"form": form, "error_message": "Sorry this user is no longer active"})
         return render(request, "user/registration.html", {"form": form})
 
 

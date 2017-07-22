@@ -7,14 +7,17 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{% block title %}TMPolls User{% endblock %}</title>
-    <link rel="stylesheet" href="{% static "polls/css/bootstrap.css" %}">
-    <link rel="stylesheet" href="{% static "polls/css/style.css" %}">
+    <link rel="stylesheet" href="{% static "user/css/bootstrap.css" %}">
+    <link rel="stylesheet" href="{% static "user/css/sweetalert2.min.css" %}">
+    <link rel="stylesheet" href="{% static "user/css/style.css" %}">
+    <script src="{% static "user/js/sweetalert2.min.js" %}"></script>
 </head>
 <body>
-    {% include "polls/navigation.html" %}
-    {% include "polls/flash_message.html" %}
+    {% include "user/navigation.html" %}
+    {% include "user/flash_message.html" %}
     {% block content %} {% endblock %}
-    <script src="{% static "polls/js/jquery.js" %}"></script>
-    <script src="{% static "polls/js/bootstrap.min.js" %}"></script>
+    <script src="{% static "user/js/jquery.js" %}"></script>
+    <script src="{% static "user/js/bootstrap.min.js" %}"></script>
+    <script src="{% static "user/js/main.js" %}"></script>
 </body>
 </html>
