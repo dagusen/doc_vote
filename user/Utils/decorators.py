@@ -1,7 +1,8 @@
 from functools import wraps
-from django.conf import settings
+
 import requests
-import json
+from django.conf import settings
+from django.shortcuts import redirect
 
 
 def add_recaptcha(func):
@@ -25,3 +26,17 @@ def add_recaptcha(func):
         return func(request, *args, **kwargs)
 
     return wrapper
+
+
+def logged_in_user(redirect_name=None, *margs, **mkwargs):
+    def main_wrapper(func):
+        @wraps(func)
+        def wrapper(request, *args, **kwargs):
+            if request.user.is_authenticated:
+                print(redirect_name)
+                return redirect(redirect_name, *margs, **mkwargs)
+            func(request, *args, **kwargs)
+
+        return wrapper
+
+    return main_wrapper

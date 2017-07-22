@@ -12,6 +12,7 @@
 </head>
 <body>
     {% include "polls/navigation.html" %}
+    {% include "polls/flash_message.html" %}
     {% block content %} {% endblock %}
     <script src="{% static "polls/js/jquery.js" %}"></script>
     <script src="{% static "polls/js/bootstrap.min.js" %}"></script>

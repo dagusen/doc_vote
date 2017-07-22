@@ -3,6 +3,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from django.forms.formsets import formset_factory
+from django.contrib import messages
 
 from polls.models import Question, Choice
 from .forms import QuestionModelForm, ChoiceModelForm, ChoiceFormSet
@@ -40,16 +41,16 @@ def detail(request, poll_id):
 
 def vote(request, poll_id):
     poll = get_object_or_404(Question, pk=poll_id)
-    try:
-        selected_choice = poll.choice_set.get(id=request.POST['vote'])
-    except (KeyError, Choice.DoesNotExist):
-        return render(request, "polls/detail.html", {
-            "poll": poll,
-            "error_message": "You Didn't Choice Any Option :("
-        })
+    if request.method == "POST":
+        try:
+            selected_choice = poll.choice_set.get(id=request.POST['vote'])
+        except (KeyError, Choice.DoesNotExist):
+            messages.add_message(request, messages.ERROR, "Please select a choice")
+            return redirect("polls:detail", poll_id=poll.id)
 
-    selected_choice.votes += 1
-    selected_choice.save()
+        selected_choice.votes += 1
+        selected_choice.save()
+        messages.success(request, "Your vote submitted, Thanks for vote <3")
 
     return redirect("polls:detail", poll_id=poll.id)
 
@@ -59,7 +60,12 @@ def result(request, poll_id):
     return render(request, "polls/result.html", {"poll": poll})
 
 
+@login_required(login_url='/user/login')
 def create(request):
+    if not request.user.is_superuser:
+        messages.success(request, "You don't have permission for create new question")
+        return redirect("polls:index")
+
     ChoiceForm = formset_factory(ChoiceModelForm, max_num=10, formset=ChoiceFormSet)
     QuestionForm = QuestionModelForm(None)
     if request.method == "POST":
@@ -69,8 +75,10 @@ def create(request):
             question = QuestionForm.save()
             for form in ChoiceForm.forms:
                 question.choice_set.create(choice_text=form.cleaned_data['choice_text'])
+            messages.success(request, "Successfully Created Question")
             return redirect("polls:detail", poll_id=question.id)
         else:
+            messages.error(request, "Form Doesn't Valid")
             return render(request, "polls/create.html", {"question_form": QuestionForm, "choice_forms": ChoiceForm})
 
     return render(request, "polls/create.html", {
