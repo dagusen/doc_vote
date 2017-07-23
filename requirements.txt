@@ -1,3 +1,4 @@
 requests
 django
 pillow
+django-environ
