@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+import environ
+
+env = environ.Env()
+env.read_env(".env")
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -22,7 +26,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'i92p5jxnjg-#&dw)n)vl#06l3bad&1sa1%_6=n4wzc8la#b_^0'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool("DEBUG", True)
 
 ALLOWED_HOSTS = []
 
@@ -73,10 +77,7 @@ WSGI_APPLICATION = 'doc_vote.wsgi.application'
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    'default': env.db("DATABASE_URL", default="sqlite:///db.sqlite3")
 }
 
 # Password validation
@@ -116,4 +117,4 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # Google ReCaptcha Key
-GOOGLE_RECAPTCHA_SECRET_KEY = "6LcMzCYUAAAAAPKWdNxHq5Aqww4UbT7_FtK3JIav"
+GOOGLE_RECAPTCHA_SECRET_KEY = env.str("GOOGLE_RECAPTCHA_SECRET_KEY")
